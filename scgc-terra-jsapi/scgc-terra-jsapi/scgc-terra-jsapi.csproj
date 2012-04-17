@@ -67,6 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NewFolder1\《欧洲赔率与亚洲盘口》.doc" />
+    <None Include="NewFolder1\欧洲赔率与亚洲盘口》教程——盘口.doc" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
