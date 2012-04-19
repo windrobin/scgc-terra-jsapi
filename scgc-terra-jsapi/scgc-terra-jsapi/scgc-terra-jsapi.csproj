@@ -53,6 +53,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="3dtip.html" />
     <Content Include="assets\js\local\3d.js" />
     <Content Include="assets\js\local\constants.js" />
     <Content Include="assets\js\local\extjs.js" />
@@ -920,6 +921,7 @@
     <Content Include="assets\js\plugs\extjs\vswd-ext.js" />
     <Content Include="assets\js\plugs\jquery\jquery-1.4.2-vsdoc.js" />
     <Content Include="assets\js\plugs\jquery\jquery-1.4.2.min.js" />
+    <Content Include="assets\js\SCSGAPI\scsg.js" />
     <Content Include="my3d.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -954,7 +956,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="assets\js\plugs\extjs\skins\images\vista\dd\" />
     <Folder Include="assets\js\plugs\extjs\skins\images\vista\tree\" />
-    <Folder Include="assets\js\SCSGAPI\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -7,65 +7,56 @@
  var retStart;
  var retStop;
 //三维场景初始化
-// Ext.onReady(function init() {
-//     try {
-//         //debugger;
-//         globe = new SGWorld("3dmap", onInitFinished);
-//         globe._createTree("infotree");
-//         globe.attachEvent("onLoadFinished", myOnLoadFinished);
-//         globe.attachEvent("onLButtonDown", myOnLButtonDown);
-//         //globe.attachEvent("onLButtonUp", myOnLButtonUp);
-//     }
-//     catch (e) { alert(e.description); }
+ Ext.onReady(function init() {
+     try {
+         globe = new SCSG("3dmap",onInitFinished);
+         SCSG.createTree("infotree");
+         SCSG.teCore.ITerraExplorer.attachEvent("onLoadFinished", myOnLoadFinished);
+         //SCSG.teCore.ITerraExplorer.attachEvent("onLButtonDown", myOnLButtonDown);
+         //SCSG.teCore.ITerraExplorer.attachEvent("onLButtonUp", myOnLButtonUp);
+     }
+     catch (e) { alert(e.description); }
 
-//     try {
+     try {
+         if (SCSG.teCore.ITerraExplorer.Type == "Pro" || SCSG.teCore.ITerraExplorer.Type == "Basic") {
+             return;
+         }
+     }
+     catch (e) {
 
-//         objTE = document.getElementById("SGAPITEObj");
+         alert("您机器上未安装三维插件,请安装后刷新网页!");
+         //location.href = "3dRes/Download/Setup.exe";
+     }
 
-//         ITerraExplorer = objTE.interface("ITerraExplorer5");
-
-//         if (ITerraExplorer.Type == "Pro" && ITerraExplorer.Type == "Basic") {
-//             return;
-//         }
-
-//     }
-//     catch (e) {
-
-//         alert("您机器上未安装三维插件,请安装后刷新网页!");
-//         //location.href = "3dRes/Download/Setup.exe";
-//     }
-
-// });
+ });
 
  function onInitFinished() {
 
      alert("三维地图加载中请您耐心等待...");
-     //globe.teCore.ITerraExplorer.Load("http://10.51.51.10/3dRes/skyline/3DGY.fly");
-     globe.teCore.ITerraExplorer.Load("D:\\Public\\广元三维单机版\\mywork\\gycq\\gycq.mpt");
-     //globe.teCore.ITerraExplorer.Load("D:\\0Job\\2010job\\Skyline\\三维室内\\Default.fly");
+     SCSG.teCore.ITerraExplorer.Load(CST.flyPath);
  }
 
  function myOnLoadFinished() {
-   globe.root.load("myWork");
+   //SCSG.root.load("myWork");
 }
 
  function myOnLButtonDown(flags, x, y) {
 
      if (ActivateMode == 0)
          return;
-//     var group = globe.creator.createGroup("Path");
-     //     globe.root.appendChild(group);
+//     var group = SCSG.creator.createGroup("Path");
+     //     SCSG.root.appendChild(group);
 
-     retStart = globe.window.pixelToWorld(x, y);
-     retStop = globe.window.pixelToWorld(x, y);
+     retStart = SCSG.window.pixelToWorld(x, y);
+     retStop = SCSG.window.pixelToWorld(x, y);
      if ((retStart == null) || (retStop == null))
          return;
-     var pos = globe.navigate.getPosition();
+     var pos = SCSG.navigate.getPosition();
 
      if (ActivateMode == 1) // 起点
      {
-         var icon = globe.creator.createImageLabel(retStart.coord, "http://10.51.51.10/assets/skins/default/images/start.png", "起点");
-         globe.root.appendChild(icon);
+         var icon = SCSG.creator.createImageLabel(retStart.coord, "http://10.51.51.10/assets/skins/default/images/start.png", "起点");
+         SCSG.root.appendChild(icon);
          icon.innerObj.ScaleFactor = Math.max(1, pos.height / 200);
          icon.innerObj.LimitGrowth = 1;
          PA.mp_start = new scgc.geometry.Point(retStart.coord.x, retStart.coord.y);
@@ -73,8 +64,8 @@
 
      if (ActivateMode == 2) // 终点
      {
-         var icon = globe.creator.createImageLabel(retStop.coord, "http://10.51.51.10/assets/skins/default/images/end.png", "终点");
-         globe.root.appendChild(icon);
+         var icon = SCSG.creator.createImageLabel(retStop.coord, "http://10.51.51.10/assets/skins/default/images/end.png", "终点");
+         SCSG.root.appendChild(icon);
          icon.innerObj.ScaleFactor = Math.max(1, pos.height / 200);
          icon.innerObj.LimitGrowth = 1;
          PA.mp_end = new scgc.geometry.Point(retStop.coord.x, retStop.coord.y);
@@ -85,102 +76,108 @@
 
  function LoadAndPlayObj(layerURL, ObjName) {
 
-     //    globe.root.load(layerURL);
+     //    SCSG.root.load(layerURL);
      ObjName = "test";
 
-     var a = globe.creator.createLayer(layerURL);
-     globe.root.appendChild(a);
+     var a = SCSG.creator.createLayer(layerURL);
+     SCSG.root.appendChild(a);
      //    layerName = layerURL.substring(0, layerURL.length - 4);
      //    alert(layerName);
-     node = globe.root.selectSingleNode(ObjName);
+     node = SCSG.root.selectSingleNode(ObjName);
      if (node != null)
-         globe.navigate.flyTo(node);
+         SCSG.navigate.flyTo(node);
  }
 
  //三维功能函数
 
- function SwitchUndergroundMode()  {globe.teCore.IMenu.Invoke(33372);}
+ function SwitchUndergroundMode()  {SCSG.teCore.IMenu.Invoke(33372);}
 
  function SwitchDateTimeSlider() {
-     if ((globe.window.getControls() & 0x40) == 0)
-         globe.window.showControls(globe.window.getControls() | 0x40);
+     if ((SCSG.window.getControls() & 0x40) == 0)
+         SCSG.window.showControls(SCSG.window.getControls() | 0x40);
      else
-         globe.window.showControls(globe.window.getControls() & 0xFFFFFFBF);
+         SCSG.window.showControls(SCSG.window.getControls() & 0xFFFFFFBF);
  }
 
- function North() { globe.teCore.IMenu.Invoke(7008); }
- function Full() { globe.teCore.IMenu.Invoke(32775); }
- function Point() { globe.teCore.IMenu.Invoke(33325);}
- function Area() { globe.teCore.IMenu.Invoke(33350); }
- function Line() { globe.teCore.IMenu.Invoke(33326); }
- function aLine() { globe.teCore.IMenu.Invoke(33327); }
- function High() { globe.teCore.IMenu.Invoke(33330); }
- function Pan() { ActivateMode = 0;  globe.teCore.IRender.SetMouseInputMode(0); globe.teCore.IMenu.Invoke(1022); }
- function Roate() { globe.teCore.IMenu.Invoke(34026); }
+ function North() { SCSG.teCore.IMenu.Invoke(7008); }
+ function Full() { SCSG.teCore.IMenu.Invoke(32775); }
+ function Point() { SCSG.teCore.IMenu.Invoke(33325);}
+ function Area() { SCSG.teCore.IMenu.Invoke(33350); }
+ function Line() { SCSG.teCore.IMenu.Invoke(33326); }
+ function aLine() { SCSG.teCore.IMenu.Invoke(33327); }
+ function High() { SCSG.teCore.IMenu.Invoke(33330); }
+ function Pan() { ActivateMode = 0;  SCSG.teCore.IRender.SetMouseInputMode(0); SCSG.teCore.IMenu.Invoke(1022); }
+ function Roate() { SCSG.teCore.IMenu.Invoke(34026); }
 
 
- function Contour() { globe.teCore.IMenu.Invoke(33331); }
- function Profile() { globe.teCore.IMenu.Invoke(33329); }
- function BestPath() { globe.teCore.IMenu.Invoke(33333); }
- function Sight() { globe.teCore.IMenu.Invoke(33328); }
- function Viewshed() { globe.teCore.IMenu.Invoke(33334); }
- function Threat() { globe.teCore.IMenu.Invoke(33332); }
+ function Contour() { SCSG.teCore.IMenu.Invoke(33331); }
+ function Profile() { SCSG.teCore.IMenu.Invoke(33329); }
+ function BestPath() { SCSG.teCore.IMenu.Invoke(33333); }
+ function Sight() { SCSG.teCore.IMenu.Invoke(33328); }
+ function Viewshed() { SCSG.teCore.IMenu.Invoke(33334); }
+ function Threat() { SCSG.teCore.IMenu.Invoke(33332); }
 
- function TextLabel() { globe.teCore.IMenu.Invoke(33318); }
- function ImageLabel() { globe.teCore.IMenu.Invoke(33319); } 
- function Polyline() { globe.teCore.IMenu.Invoke(33300); }
- function Polygon() { globe.teCore.IMenu.Invoke(33301); }
- function Rectangle() { globe.teCore.IMenu.Invoke(33302); }
- function Regular() { globe.teCore.IMenu.Invoke(33303); }
- function Arrow() { globe.teCore.IMenu.Invoke(33304); }
- function Circle() { globe.teCore.IMenu.Invoke(33305); }
- function Ellipse() { globe.teCore.IMenu.Invoke(33306); }
- function Arc() { globe.teCore.IMenu.Invoke(33307); }
+ function TextLabel() { SCSG.teCore.IMenu.Invoke(33318); }
+ function ImageLabel() { SCSG.teCore.IMenu.Invoke(33319); } 
+ function Polyline() { SCSG.teCore.IMenu.Invoke(33300); }
+ function Polygon() { SCSG.teCore.IMenu.Invoke(33301); }
+ function Rectangle() { SCSG.teCore.IMenu.Invoke(33302); }
+ function Regular() { SCSG.teCore.IMenu.Invoke(33303); }
+ function Arrow() { SCSG.teCore.IMenu.Invoke(33304); }
+ function Circle() { SCSG.teCore.IMenu.Invoke(33305); }
+ function Ellipse() { SCSG.teCore.IMenu.Invoke(33306); }
+ function Arc() { SCSG.teCore.IMenu.Invoke(33307); }
 
- function Model() { globe.teCore.IMenu.Invoke(33321); }
- function Building() { globe.teCore.IMenu.Invoke(33317);}
- function Poly() { globe.teCore.IMenu.Invoke(33316); }
- function Box() { globe.teCore.IMenu.Invoke(33310); }
- function Cylinder() { globe.teCore.IMenu.Invoke(33312); }
- function Sphere() { globe.teCore.IMenu.Invoke(33313); }
- function Cone() { globe.teCore.IMenu.Invoke(33314); }
- function Pyramid() { globe.teCore.IMenu.Invoke(33311); }
- function Arrow() { globe.teCore.IMenu.Invoke(33315); }
+ function Model() { SCSG.teCore.IMenu.Invoke(33321); }
+ function Building() { SCSG.teCore.IMenu.Invoke(33317);}
+ function Poly() { SCSG.teCore.IMenu.Invoke(33316); }
+ function Box() { SCSG.teCore.IMenu.Invoke(33310); }
+ function Cylinder() { SCSG.teCore.IMenu.Invoke(33312); }
+ function Sphere() { SCSG.teCore.IMenu.Invoke(33313); }
+ function Cone() { SCSG.teCore.IMenu.Invoke(33314); }
+ function Pyramid() { SCSG.teCore.IMenu.Invoke(33311); }
+ function Arrow() { SCSG.teCore.IMenu.Invoke(33315); }
 
- function Layer() { globe.teCore.IMenu.Invoke(45200); }
- function Image() { globe.teCore.IMenu.Invoke(33361); }
- function DEM() { globe.teCore.IMenu.Invoke(33362); }
- function Modify() { globe.teCore.IMenu.Invoke(33370); }
- function Hole() { globe.teCore.IMenu.Invoke(33371); }
- function Video() { globe.teCore.IMenu.Invoke(33309); }
- function Hide() { globe.teCore.IMenu.Invoke(34416); }
- function Ground() { globe.teCore.IMenu.Invoke(33322); }
- function Aerial() { globe.teCore.IMenu.Invoke(33437); }
+ function Layer() { SCSG.teCore.IMenu.Invoke(45200); }
+ function Image() { SCSG.teCore.IMenu.Invoke(33361); }
+ function DEM() { SCSG.teCore.IMenu.Invoke(33362); }
+ function Modify() { SCSG.teCore.IMenu.Invoke(33370); }
+ function Hole() { SCSG.teCore.IMenu.Invoke(33371); }
+ function Video() { SCSG.teCore.IMenu.Invoke(33309); }
+ function Hide() { SCSG.teCore.IMenu.Invoke(34416); }
+ function Ground() { SCSG.teCore.IMenu.Invoke(33322); }
+ function Aerial() { SCSG.teCore.IMenu.Invoke(33437); }
  function Snap() {
-     globe.window.getSnapShot("400", "500", "C:\Inetpub\wwwroot\3DSky\df.jpg");
+     SCSG.window.getSnapShot("400", "500", "C:\Inetpub\wwwroot\3DSky\df.jpg");
  }
 
 
-    function showMyUrl() {
+function showMyUrl() {
 
-           var popup = new SGPopup("My popup", "http://www.126.com");
+       var popup = new SGPopup("My popup", "http://www.126.com");
 
-             globe.showPopup(popup);
+         SCSG.showPopup(popup);
 
 
-    }
-    function showNotification() {
+}
+function showNotification() {
 
-        var popup = new SGNotification("测绘生产！");
+    var popup = new SGNotification("测绘生产！");
 
-        globe.showPopup(popup);
+    SCSG.showPopup(popup);
 
-    }
-    function getPosition() { 
-    
-        var pos = globe.navigate.getPosition();
+}
+function getPosition() { 
 
-        alert("Current Position:\n\nX: " + pos.x + "\nY: " + pos.y + "\nHeight: " + pos.height + "\nYaw: " + pos.yaw + "\nPitch: " + pos.pitch);
-    }
+    var pos = SCSG.navigate.getPosition();
 
+    alert("Current Position:\n\nX: " + pos.x + "\nY: " + pos.y + "\nHeight: " + pos.height + "\nYaw: " + pos.yaw + "\nPitch: " + pos.pitch);
+}
+
+function addWMSLayer(){
+    SCSG.teCore.IMenu.Invoke(33361);
+    var wmsFile ="[INFO]\nMeters=0\nMPP=2.68220901489258E-06\nUrl="+CST.dommapUrl2+"wms?request=GetMap&Version=1.1.1&Service=WMS&SRS=EPSG:4326&BBOX=96.8,25.7,109,34.7&HEIGHT=256&WIDTH=256&Layers=0&Styles=&Format=image/png&token="+CST.token+"\nxul=96.8\nylr=25.7\nxlr=109\nyul=34.7\n";
+    wmsFile="<EXT><ExtInfo><![CDATA[" +wmsFile+ "]]></ExtInfo><ExtType>wms</ExtType></EXT>";
+    //SCSG.teCore.IObjectManager.CreateImageryLayer("wms",96.8,34.7,109,25.7,wmsFile,null,0,"scwms");alert(1);
+}
 
