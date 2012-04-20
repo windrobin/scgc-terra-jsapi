@@ -921,7 +921,10 @@
     <Content Include="assets\js\plugs\extjs\vswd-ext.js" />
     <Content Include="assets\js\plugs\jquery\jquery-1.4.2-vsdoc.js" />
     <Content Include="assets\js\plugs\jquery\jquery-1.4.2.min.js" />
+    <Content Include="assets\js\SCSGAPI\scsg.constants.js" />
+    <Content Include="assets\js\SCSGAPI\scsg.vbs" />
     <Content Include="assets\js\SCSGAPI\scsg.js" />
+    <Content Include="assets\js\SCSGAPI\sgapi.sgworld.vbs" />
     <Content Include="my3d.html" />
     <Content Include="Web.config" />
   </ItemGroup>
