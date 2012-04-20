@@ -10,7 +10,7 @@
  Ext.onReady(function init() {
      try {
          globe = new SCSG("3dmap",onInitFinished);
-         SCSG.createTree("infotree");
+         globe.createTree("infotree");
          SCSG.teCore.ITerraExplorer.attachEvent("onLoadFinished", myOnLoadFinished);
          //SCSG.teCore.ITerraExplorer.attachEvent("onLButtonDown", myOnLButtonDown);
          //SCSG.teCore.ITerraExplorer.attachEvent("onLButtonUp", myOnLButtonUp);
@@ -106,7 +106,6 @@
  function Line() { SCSG.teCore.IMenu.Invoke(33326); }
  function aLine() { SCSG.teCore.IMenu.Invoke(33327); }
  function High() { SCSG.teCore.IMenu.Invoke(33330); }
- function Pan() { ActivateMode = 0;  SCSG.teCore.IRender.SetMouseInputMode(0); SCSG.teCore.IMenu.Invoke(1022); }
  function Roate() { SCSG.teCore.IMenu.Invoke(34026); }
 
 
@@ -147,6 +146,53 @@
  function Hide() { SCSG.teCore.IMenu.Invoke(34416); }
  function Ground() { SCSG.teCore.IMenu.Invoke(33322); }
  function Aerial() { SCSG.teCore.IMenu.Invoke(33437); }
+ 
+ function ZoomIn(delta){
+    try
+    {
+        var ret = SCSG.window.pixelToWorld();
+        if (ret == null) { throw "Zoom point is not defined"; }
+        var pos = SCSG.window.getPosition();
+        if (delta == null)
+            delta = pos.distanceTo(ret.coord) / 3.0;
+        else
+            delta = pos.distanceTo(ret.coord) - delta;        
+        SCSG.teCore.IPlane.Zoom(delta,0);
+    }
+    catch(e) {return false; }                    
+    return true;
+ }
+
+ function ZoomOut(delta){
+    try
+    {
+        var ret = SCSG.window.pixelToWorld();
+        if (ret == null) { throw "Zoom point is not defined"; }
+        var pos = SCSG.window.getPosition();
+        if (delta == null)
+            delta = pos.distanceTo(ret.coord) * 3.0;
+        else
+            delta = pos.distanceTo(ret.coord) + delta;        
+        SCSG.teCore.IPlane.Zoom(delta,0);
+    }
+    catch(e) {return false; }                    
+    return true;
+ } 
+ function Pan() { ActivateMode = 0;  SCSG.teCore.IRender.SetMouseInputMode(0); SCSG.teCore.IMenu.Invoke(1022); }
+ function Stop(){
+    try
+    {
+        //if (this._flyThrough != null) this._flyThrough.finish();            
+        // Temp non-elegant implementation of stop (due to lack of an appropriate interface in TE)
+        pos = SCSG.window.getPosition();
+        pos.distance = 1;
+        //this.jumpTo(pos);
+        //this.setPosition(pos);
+    }
+    catch(e) {return false; }                    
+    return true;        
+ }
+ 
  function Snap() {
      SCSG.window.getSnapShot("400", "500", "C:\Inetpub\wwwroot\3DSky\df.jpg");
  }
@@ -175,9 +221,18 @@ function getPosition() {
 }
 
 function addWMSLayer(){
-    SCSG.teCore.IMenu.Invoke(33361);
+    //SCSG.teCore.IMenu.Invoke(33361);
     var wmsFile ="[INFO]\nMeters=0\nMPP=2.68220901489258E-06\nUrl="+CST.dommapUrl2+"wms?request=GetMap&Version=1.1.1&Service=WMS&SRS=EPSG:4326&BBOX=96.8,25.7,109,34.7&HEIGHT=256&WIDTH=256&Layers=0&Styles=&Format=image/png&token="+CST.token+"\nxul=96.8\nylr=25.7\nxlr=109\nyul=34.7\n";
     wmsFile="<EXT><ExtInfo><![CDATA[" +wmsFile+ "]]></ExtInfo><ExtType>wms</ExtType></EXT>";
     //SCSG.teCore.IObjectManager.CreateImageryLayer("wms",96.8,34.7,109,25.7,wmsFile,null,0,"scwms");alert(1);
+    debugger;
+    var left,top,width,height;
+    var tt=typeof(SCSG.teCore.IRender.GetRenderRect);
+    var re=SCSG.teCore.IRender.GetRenderRect(left,top,width,height);
+    var ss=left+top;
 }
+
+
+
+
 

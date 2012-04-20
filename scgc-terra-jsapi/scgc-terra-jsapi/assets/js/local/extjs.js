@@ -239,13 +239,13 @@ Ext.onReady(function() {
                         tooltip: '放大',
                         icon: '3dRes/images/tools3d_zoomin.gif',
                         iconCls: 'x-btn-text-icon',
-                        handler: function() { globe.navigate.zoomIn(); }
+                        handler: function() { ZoomIn(); }
                     }, {
                         text: '缩小',
                         tooltip: '缩小',
                         icon: '3dRes/images/tools3d_zoomout.gif',
                         iconCls: 'x-btn-text-icon',
-                        handler: function() { globe.navigate.zoomOut(); }
+                        handler: function() { ZoomOut(); }
                     }, {
                         text: '平移',
                         tooltip: '平移',
@@ -264,7 +264,7 @@ Ext.onReady(function() {
                         tooltip: '停止',
                         icon: '3dRes/images/toolsStop.gif',
                         iconCls: 'x-btn-text-icon',
-                        handler: function() { globe.navigate.stop(); }
+                        handler: function() { Stop(); }
                     }, {
                         text: '指北',
                         tooltip: '指北',
