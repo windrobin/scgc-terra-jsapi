@@ -1,0 +1,1 @@
+对skyline terra 6 jsapi进行二次封装
